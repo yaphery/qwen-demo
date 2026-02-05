@@ -27,12 +27,12 @@ def example_with_system_prompt():
     print("示例2: 自定义系统提示词")
     print("=" * 50)
     
-    chat = QwenChat()
-    
-    # 使用自定义系统提示词
+    # 使用自定义系统提示词初始化
     system_prompt = "你是一个专业的Python编程助手，请用简洁的方式回答问题。"
+    chat = QwenChat(system_prompt=system_prompt)
+    
     print("\n用户: 如何在Python中读取文件？")
-    response = chat.chat("如何在Python中读取文件？", system_prompt=system_prompt)
+    response = chat.chat("如何在Python中读取文件？")
     print(f"AI: {response}")
 
 

@@ -6,29 +6,30 @@ import config
 class QwenChat:
     """通义千问聊天类"""
     
-    def __init__(self, api_key=None, model=None):
+    def __init__(self, api_key=None, model=None, system_prompt=None):
         """
         初始化聊天客户端
         
         Args:
             api_key: API密钥，如果为None则从配置文件读取
             model: 模型名称，如果为None则使用默认模型
+            system_prompt: 系统提示词，如果为None则使用默认提示词
         """
         self.api_key = api_key or config.API_KEY
         self.model = model or config.DEFAULT_MODEL
+        self.system_prompt = system_prompt or config.SYSTEM_PROMPT
         self.client = OpenAI(
             api_key=self.api_key,
             base_url=config.BASE_URL
         )
         self.conversation_history = []
     
-    def chat(self, user_message, system_prompt=None):
+    def chat(self, user_message):
         """
         发送消息并获取回复
         
         Args:
             user_message: 用户消息
-            system_prompt: 系统提示词，可选
             
         Returns:
             AI回复的内容
@@ -36,11 +37,9 @@ class QwenChat:
         # 构建消息列表
         messages = []
         
-        # 添加系统提示词
-        if system_prompt:
-            messages.append({"role": "system", "content": system_prompt})
-        elif not self.conversation_history:
-            messages.append({"role": "system", "content": config.SYSTEM_PROMPT})
+        # 只在首次对话时添加系统提示词
+        if not self.conversation_history:
+            messages.append({"role": "system", "content": self.system_prompt})
         
         # 添加对话历史
         messages.extend(self.conversation_history)

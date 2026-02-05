@@ -62,6 +62,11 @@ print(response)
 
 # 重置对话
 chat.reset()
+
+# 使用自定义系统提示词
+chat_custom = QwenChat(system_prompt="你是一个Python专家")
+response = chat_custom.chat("如何读取文件？")
+print(response)
 ```
 
 ## 配置说明
