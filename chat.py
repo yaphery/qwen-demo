@@ -34,12 +34,8 @@ class QwenChat:
         Returns:
             AI回复的内容
         """
-        # 构建消息列表
-        messages = []
-        
-        # 只在首次对话时添加系统提示词
-        if not self.conversation_history:
-            messages.append({"role": "system", "content": self.system_prompt})
+        # 构建消息列表，始终包含系统提示词
+        messages = [{"role": "system", "content": self.system_prompt}]
         
         # 添加对话历史
         messages.extend(self.conversation_history)
